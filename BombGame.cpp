@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <queue>
 #include <random>
 
 /* 
@@ -18,7 +18,7 @@ class game {
     int randomNumber;
     int numberOfPlayers;
     int chosenNumber; // the number the player chooses
-    std :: vector <int> players;
+    std :: queue <int> players;
     int max = 100; 
     int min = 0;
     bool hit;
@@ -32,7 +32,13 @@ class game {
 
         nOP = x;
 
+        for (int i = 0 ; i < x ; i++){
+            players.push(i);
+        }
+
     }
+
+
 
     void randNumber(int &random){
         int a = rand() %100 + 1;
@@ -42,8 +48,14 @@ class game {
     void choosingNumber(int &chosenNumber){
 
         int x;
-        std :: cout << "Choose your number between " << min << " and " << max;
+
+
+        do {
+            std :: cout << "Choose your number between " << min << " and " << max;
         std :: cin >> x;
+        } while (x < min || x > max);
+
+
 
         chosenNumber = x;
 
@@ -67,11 +79,11 @@ class game {
     void calculateRange(int &chosenNumber, int &min, int &max){
 
         if (chosenNumber < randomNumber){
-            chosenNumber = min;
+            min = chosenNumber;
         }
         else {
             
-            chosenNumber = max;
+            max = chosenNumber;
         }
 
     }
@@ -91,11 +103,16 @@ void promptGamePlay (){
     while (playing){
 
     // for checking
+    int playerTurn = gm1.players.front() + 1;
 
-    std :: cout << gm1.randomNumber;
+    std :: cout << gm1.randomNumber << "\n";
+    std :: cout << "it's " << playerTurn << "'s Turn: \n";
     gm1.choosingNumber(gm1.chosenNumber);
     gm1.checkNumber(gm1.chosenNumber, playing, gm1.min, gm1.max);
     gm1.calculateRange(gm1.chosenNumber, gm1.min, gm1.max);
+
+    gm1.players.push(gm1.players.front());
+    gm1.players.pop();
 
     }
 
@@ -109,5 +126,6 @@ int main () {
 
     promptGamePlay();
 
+    std :: cout << "Thanks for playing!";
 
 }
