@@ -41,8 +41,8 @@ class game {
 
 
     void randNumber(int &random){
-        int a = rand() %100 + 1;
-        random = a;
+         random  = rand() %100 + 1;
+       
     }
 
     void choosingNumber(int &chosenNumber){
